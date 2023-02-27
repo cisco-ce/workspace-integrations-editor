@@ -1,3 +1,23 @@
 body {
   font-family: arial;
 }
+
+main {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+label {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  width: 20em;
+}

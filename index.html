@@ -13,7 +13,59 @@
   x-cloak
   x-data="model"
 >
-<h1>Workspace Integrations Manifest Editor</h1>
+<header>
+  <h1>Workspace Integrations Manifest Editor</h1>
+</header>
+
+<main x-show="!config">
+  <div>
+    Create new manifest or import existing from file.
+  </div>
+  <button disabled>Create new</button>
+  <button @click="loadFromFile()">Import from file...</button>
+</main>
+
+<main x-show="!!config">
+  <template x-for="input in inputs">
+    <div>
+      <label :for="input.id" x-text="input.name"></label>
+      <template x-if="input.type === 'string'">
+        <input
+          :id="input.id"
+          x-model="input.container[input.id]"
+          :type="input.valuespace || 'text'"
+        />
+      </template>
+      <template x-if="input.type === 'text'">
+        <textarea
+          :id="input.id"
+          x-model="input.container[input.id]"
+          :type="input.valuespace || 'text'"
+        ></textarea>
+      </template>
+      <template x-if="input.type === 'list'">
+        <div class="list">
+          <template x-for="item, i in input.values">
+            <div>
+              <input
+                x-model="item.container[item.id]"
+              />
+              <a :href="apiLink(item.container[item.id])" target="_blank">Doc</a>
+              <button @click="input.remove(i)">Remove</button>
+            </div>
+          </template>
+          <div>
+            <button @click="input.add()">Add</button>
+          </div>
+        </div>
+      </template>
+    </div>
+  </template>
+  <div>
+    <button disabled @click="saveToFile()">Save file</button>
+    <button @click="toClipboard()">Copy</button>
+  </div>
+</main>
 
 </body>
 

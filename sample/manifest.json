@@ -1,0 +1,96 @@
+{
+  "id": "ac6b6972-538e-21bc-bf63-0242ac130032",
+  "manifestVersion": 10,
+  "displayName": "Unbook",
+  "vendor": "Webex labs",
+  "email": "example-app@example.com",
+  "description": "Automatically unbook empty meeting rooms",
+  "availability": "org_private",
+  "apiAccess": [
+    {
+      "scope": "spark-admin:devices_read",
+      "access": "required",
+      "role": "id_readonly_admin"
+    },
+    {
+      "scope": "spark-admin:workspaces_read",
+      "access": "required",
+      "role": "id_readonly_admin"
+    },
+    {
+      "scope": "spark:xapi_statuses",
+      "access": "required"
+    },
+    {
+      "scope": "spark:xapi_commands",
+      "access": "required"
+    }
+  ],
+  "xapiAccess": {
+    "status": [
+      {
+        "path": "Standby.State",
+        "access": "required"
+      },
+      {
+        "path": "SystemUnit.State.NumberOfActiveCalls",
+        "access": "required"
+      },
+      {
+        "path": "Conference.Presentation.LocalInstance[*].SendingMode",
+        "access": "required"
+      },
+      {
+        "path": "RoomAnalytics.PeopleCount.Current",
+        "access": "required"
+      },
+      {
+        "path": "RoomAnalytics.PeoplePresence",
+        "access": "required"
+      },
+      {
+        "path": "Bookings.*",
+        "access": "required"
+      },
+      {
+        "path": "Audio.*",
+        "access": "required"
+      }
+    ],
+    "commands": [
+      {
+        "path": "UserInterface.*",
+        "access": "required"
+      },
+      {
+        "path": "Bookings.List",
+        "access": "required"
+      },
+      {
+        "path": "Bookings.Get",
+        "access": "required"
+      },
+      {
+        "path": "Bookings.Delete",
+        "access": "required"
+      },
+      {
+        "path": "Audio.Volume.*",
+        "access": "required"
+      },
+      {
+        "path": "Macros.*",
+        "access": "required"
+      }
+    ],
+    "events": [
+      {
+        "path": "UserInterface.Extensions.*",
+        "access": "required"
+      }
+    ]
+  },
+  "provisioning": {
+    "type": "manual"
+  }
+}
