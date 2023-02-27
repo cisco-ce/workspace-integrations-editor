@@ -60,6 +60,18 @@
             :type="input.valuespace || 'text'"
           ></textarea>
         </template>
+        <template x-if="input.type === 'select'">
+          <select x-model="input.container[input.id]">
+            <template x-for="value in input.values">
+              <!-- selected is also needed because x-model is run before x-for -->
+              <option
+                :value="value"
+                :selected="value === input.container[input.id]"
+                x-text="value"
+              ></option>
+            </template>
+          </select>
+        </template>
         <template x-if="input.type === 'list'">
           <div class="list">
             <template x-for="item, i in input.values">
