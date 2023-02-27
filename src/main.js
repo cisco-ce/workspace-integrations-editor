@@ -29,7 +29,7 @@ const model = {
     this.config = await fetchJson('./sample/manifest.json');
     // we assume you want to edit the manifest, so we auto update the version number:
     const current = Number(this.config.manifestVersion) || 0;
-    this.config.manifestVersion += 1;
+    this.config.manifestVersion = current + 1;
   },
 
   async createNew() {
@@ -38,6 +38,14 @@ const model = {
   },
 
   saveToFile() {
+    const text = JSON.stringify(this.config, null, 2);
+    const data = new Blob([text], { type: 'text/plain' });
+    const dataUrl = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.setAttribute('download', 'manifest.json');
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    window.requestAnimationFrame(() => link.click());
   },
 
   setJson(json) {
