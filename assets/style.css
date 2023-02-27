@@ -63,3 +63,7 @@ textarea.raw-json {
 .warning {
   color: orange;
 }
+
+.manifest-file {
+  display: none;
+}
