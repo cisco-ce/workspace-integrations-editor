@@ -81,6 +81,11 @@
         </template>
         <template x-if="input.type === 'list'">
           <div class="list">
+            <template x-if="input.values.length < 1">
+              <div>
+                <i>List is empty.</i>
+              </div>
+            </template>
             <template x-for="item, i in input.values">
               <div>
                 <input
@@ -92,7 +97,7 @@
                   x-show="!!item.url"
                   target="_blank"
                 >Doc</a>
-                <button @click="input.remove(i)">Remove</button>
+                <button @click="input.remove(i)">X</button>
               </div>
             </template>
             <div>
