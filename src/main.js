@@ -1,6 +1,7 @@
 const model = {
 
   config: null,
+  showJson: false,
 
   init() {
     console.log('init');
@@ -17,6 +18,16 @@ const model = {
   },
 
   saveToFile() {
+  },
+
+  setJson(json) {
+    try {
+      this.config = JSON.parse(json);
+      this.showJson = false;
+    }
+    catch(e) {
+      alert('Not able to parse JSON.');
+    }
   },
 
   toClipboard() {

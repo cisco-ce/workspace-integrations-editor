@@ -21,3 +21,8 @@ label {
 input {
   width: 20em;
 }
+
+textarea.raw-json {
+  width: 80vw;
+  height: 70vh;
+}
