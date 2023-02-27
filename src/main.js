@@ -25,7 +25,22 @@ const model = {
     this.datalists.push({ id: 'scopes', values: scopes.map(s => s.id )});
   },
 
-  async loadFromFile() {
+  loadFromFile() {
+    const file = document.querySelector('.manifest-file').files[0];
+    if (!file) return;
+    if (file.type !== 'application/json') {
+      alert('Not a JSON file');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      this.setJson(reader.result);
+    });
+    reader.readAsText(file);
+  },
+
+  async loadSample() {
     this.config = await fetchJson('./sample/manifest.json');
     // we assume you want to edit the manifest, so we auto update the version number:
     const current = Number(this.config.manifestVersion) || 0;

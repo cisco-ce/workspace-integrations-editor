@@ -24,7 +24,13 @@
   </div>
   <div>
     <button @click="createNew()">Create new</button>
-    <button @click="loadFromFile()">Import from file...</button>
+    <input
+      class="manifest-file"
+      accept=".json"
+      type="file"
+      @change="loadFromFile()"
+    />
+    <button @click="loadSample()">Sample</button>
   </div>
 </main>
 
