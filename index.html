@@ -21,8 +21,10 @@
   <div>
     Create new manifest or import existing from file.
   </div>
-  <button disabled>Create new</button>
-  <button @click="loadFromFile()">Import from file...</button>
+  <div>
+    <button @click="createNew()">Create new</button>
+    <button @click="loadFromFile()">Import from file...</button>
+  </div>
 </main>
 
 

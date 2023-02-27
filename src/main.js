@@ -1,3 +1,19 @@
+async function fetchJson(url) {
+  const data = await (await fetch(url)).json();
+  return data;
+}
+
+// https://www.w3resource.com/javascript-exercises/javascript-math-exercise-23.php
+function createUUID(){
+  var dt = new Date().getTime();
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      var r = (dt + Math.random()*16)%16 | 0;
+      dt = Math.floor(dt/16);
+      return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+  });
+  return uuid;
+}
+
 const model = {
 
   config: null,
@@ -8,13 +24,15 @@ const model = {
   },
 
   async loadFromFile() {
-    const data = await (await fetch('./sample/manifest.json')).json();
-    console.log('got', data);
-    this.config = data;
-
+    this.config = await fetchJson('./sample/manifest.json');
     // we assume you want to edit the manifest, so we auto update the version number:
     const current = Number(this.config.manifestVersion) || 0;
     this.config.manifestVersion += 1;
+  },
+
+  async createNew() {
+    this.config = await fetchJson('./sample/new.json');
+    this.config.id = createUUID();
   },
 
   saveToFile() {

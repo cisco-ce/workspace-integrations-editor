@@ -1,0 +1,20 @@
+{
+  "id": "",
+  "manifestVersion": 1,
+  "displayName": "",
+  "vendor": "",
+  "email": "",
+  "description": "",
+  "availability": "org_private",
+  "apiAccess": [
+
+  ],
+  "xapiAccess": {
+    "status": [],
+    "commands": [],
+    "events": []
+  },
+  "provisioning": {
+    "type": "manual"
+  }
+}
