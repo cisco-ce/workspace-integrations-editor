@@ -84,8 +84,8 @@ const model = {
     })
   },
 
-  apiLink(path) {
-    return `https://roomos.cisco.com/xapi/search?search=${path}`;
+  apiLink(path, type) {
+    return `https://roomos.cisco.com/xapi/search?search=${path}&Type=${type}`;
   },
 
 
@@ -108,7 +108,7 @@ const model = {
           container: item,
           id: 'path',
           type: 'string',
-          url: item.path && this.apiLink(item.path),
+          url: item.path && this.apiLink(item.path, type),
         };
       }),
     };
@@ -196,8 +196,8 @@ const model = {
       },
       this.addScopeContainer(this.config.apiAccess),
       this.addApiContainer('Status', this.config.xapiAccess?.status || []),
-      this.addApiContainer('Commands', this.config.xapiAccess?.commands || []),
-      this.addApiContainer('Events', this.config.xapiAccess?.events || []),
+      this.addApiContainer('Command', this.config.xapiAccess?.commands || []),
+      this.addApiContainer('Event', this.config.xapiAccess?.events || []),
     ];
   },
 
