@@ -18,9 +18,11 @@ const model = {
 
   config: null,
   showJson: false,
+  datalists: [],
 
   init() {
-    console.log('init');
+    const scopes = getScopes();
+    this.datalists.push({ id: 'scopes', values: scopes.map(s => s.id )});
   },
 
   async loadFromFile() {
@@ -83,6 +85,7 @@ const model = {
           container: item,
           id: 'path',
           type: 'string',
+          url: item.path && this.apiLink(item.path),
         };
       }),
     };
@@ -93,6 +96,7 @@ const model = {
       id: 'apiAccess',
       name: 'API scopes',
       type: 'list',
+      datalist: 'scopes',
       add: () => {
         container.push({
           "scope": "",

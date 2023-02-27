@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manifest editor</title>
   <link rel="stylesheet" href="./assets/style.css"></link>
+  <script src="src/scopes.js" defer></script>
   <script src="src/main.js" defer></script>
   <script src="./src/alpine.js" defer></script>
 </head>
@@ -63,7 +64,7 @@
         <template x-if="input.type === 'select'">
           <select x-model="input.container[input.id]">
             <template x-for="value in input.values">
-              <!-- selected is also needed because x-model is run before x-for -->
+              <!-- :selected is also needed because x-model is run before x-for -->
               <option
                 :value="value"
                 :selected="value === input.container[input.id]"
@@ -78,8 +79,13 @@
               <div>
                 <input
                   x-model="item.container[item.id]"
+                  :list="input.datalist"
                 />
-                <a :href="apiLink(item.container[item.id])" target="_blank">Doc</a>
+                <a
+                  :href="item.url"
+                  x-show="!!item.url"
+                  target="_blank"
+                >Doc</a>
                 <button @click="input.remove(i)">Remove</button>
               </div>
             </template>
@@ -96,6 +102,14 @@
     <button @click="toClipboard()">Copy</button>
   </div>
 </main>
+
+<template x-for="datalist in datalists">
+  <datalist :id="datalist.id">
+    <template x-for="value in datalist.values">
+      <option :value="value">
+    </template>
+  </datalist>
+</template>
 
 </body>
 
