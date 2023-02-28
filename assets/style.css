@@ -1,6 +1,7 @@
 :root {
   --main-accent: #1170cf;
   --header-height: 4em;
+  --error: #cc1010;
 }
 
 * {
@@ -66,7 +67,7 @@ label {
 
 label.required::after {
   content: '*';
-  color: #cc1010;
+  color: var(--error);
   margin-left: 5px;
   font-size: 15px;
 }
@@ -94,8 +95,9 @@ textarea.raw-json {
   line-height: 1.5em;
 }
 
-.error {
-  color: red;
+div.error {
+  margin-top: 10px;
+  color: var(--error);
 }
 
 .warning {
