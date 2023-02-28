@@ -40,98 +40,109 @@
 </main>
 
 
-<main x-show="!!config">
-  <div>
-    For detailed help, see the <a href="https://developer.webex.com/docs/api/guides/workspace-integrations-guide" target="_blank">Workspace Integrations Guide</a> on developer.webex.com.
-  </div>
-  <div x-show="showJson">
-    <textarea
-      class="raw-json"
-      :value="JSON.stringify(config, null, 2)"
-    ></textarea>
-    <div class="buttons">
+<div x-show="!!config">
+  <div class="tabs">
+    <template x-for="tab in tabs">
       <button
-        @click="setJson(document.querySelector('.raw-json').value)"
-        x-show="showJson"
-      >Show UI</button>
-    </div>
-
-  </div>
-  <div x-show="!showJson">
-    <template x-for="input in form">
-      <section>
-        <label
-          :for="input.id"
-          x-text="input.name"
-          :class="input.required ? 'required' : ''"
-        ></label>
-        <template x-if="input.type === 'string'">
-          <input
-            :id="input.id"
-            x-model="input.container[input.id]"
-            :type="input.valuespace || 'text'"
-            :placeholder="input.placeholder || ''"
-          />
-        </template>
-        <template x-if="input.type === 'text'">
-          <textarea
-            :id="input.id"
-            x-model="input.container[input.id]"
-            :type="input.valuespace || 'text'"
-            :placeholder="input.placeholder || ''"
-          ></textarea>
-        </template>
-        <template x-if="input.type === 'select'">
-          <select x-model="input.container[input.id]">
-            <template x-for="value in input.values">
-              <!-- :selected is also needed because x-model is run before x-for -->
-              <option
-                :value="value"
-                :selected="value === input.container[input.id]"
-                x-text="value"
-              ></option>
-            </template>
-          </select>
-        </template>
-        <template x-if="input.type === 'list'">
-          <div class="list">
-            <template x-if="input.values.length < 1">
-              <div>
-                <i>List is empty.</i>
-              </div>
-            </template>
-            <template x-for="item, i in input.values">
-              <div>
-                <input
-                  x-model="item.container[item.id]"
-                  :list="input.datalist"
-                  :placeholder="input.placeholder || ''"
-                />
-                <button @click="input.remove(i)" class="remove">X</button>
-                <a
-                  :href="item.url"
-                  x-show="!!item.url"
-                  target="_blank"
-                >Doc</a>
-              </div>
-            </template>
-            <div class="buttons">
-              <button @click="input.add()">Add</button>
-            </div>
-          </div>
-        </template>
-        <div class="warning" x-show="input.warning" x-text="input.warning"></div>
-        <div class="error" x-show="input.error" x-text="input.error"></div>
-      </div>
+        x-text="tab"
+        @click="currentTab = tab"
+        :class="currentTab === tab ? 'selected' : ''"
+      ></button>
     </template>
-  </section>
-  <div class="buttons">
-    <button @click="saveToFile()" class="primary">Save file</button>
-    <button @click="toClipboard()">To clipboard</button>
-    <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
-    <button @click="validateManifest()">Validate</button>
   </div>
-</main>
+  <main>
+    <div>
+      For detailed help, see the <a href="https://developer.webex.com/docs/api/guides/workspace-integrations-guide" target="_blank">Workspace Integrations Guide</a> on developer.webex.com.
+    </div>
+    <div x-show="showJson">
+      <textarea
+        class="raw-json"
+        :value="JSON.stringify(config, null, 2)"
+      ></textarea>
+      <div class="buttons">
+        <button
+          @click="setJson(document.querySelector('.raw-json').value)"
+          x-show="showJson"
+        >Show UI</button>
+      </div>
+
+    </div>
+    <div x-show="!showJson">
+      <template x-for="input in form">
+        <section>
+          <label
+            :for="input.id"
+            x-text="input.name"
+            :class="input.required ? 'required' : ''"
+          ></label>
+          <template x-if="input.type === 'string'">
+            <input
+              :id="input.id"
+              x-model="input.container[input.id]"
+              :type="input.valuespace || 'text'"
+              :placeholder="input.placeholder || ''"
+            />
+          </template>
+          <template x-if="input.type === 'text'">
+            <textarea
+              :id="input.id"
+              x-model="input.container[input.id]"
+              :type="input.valuespace || 'text'"
+              :placeholder="input.placeholder || ''"
+            ></textarea>
+          </template>
+          <template x-if="input.type === 'select'">
+            <select x-model="input.container[input.id]">
+              <template x-for="value in input.values">
+                <!-- :selected is also needed because x-model is run before x-for -->
+                <option
+                  :value="value"
+                  :selected="value === input.container[input.id]"
+                  x-text="value"
+                ></option>
+              </template>
+            </select>
+          </template>
+          <template x-if="input.type === 'list'">
+            <div class="list">
+              <template x-if="input.values.length < 1">
+                <div>
+                  <i>List is empty.</i>
+                </div>
+              </template>
+              <template x-for="item, i in input.values">
+                <div>
+                  <input
+                    x-model="item.container[item.id]"
+                    :list="input.datalist"
+                    :placeholder="input.placeholder || ''"
+                  />
+                  <button @click="input.remove(i)" class="remove">X</button>
+                  <a
+                    :href="item.url"
+                    x-show="!!item.url"
+                    target="_blank"
+                  >Doc</a>
+                </div>
+              </template>
+              <div class="buttons">
+                <button @click="input.add()">Add</button>
+              </div>
+            </div>
+          </template>
+          <div class="warning" x-show="input.warning" x-text="input.warning"></div>
+          <div class="error" x-show="input.error" x-text="input.error"></div>
+        </div>
+      </template>
+    </section>
+    <div class="buttons">
+      <button @click="saveToFile()" class="primary">Save file</button>
+      <button @click="toClipboard()">To clipboard</button>
+      <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
+      <button @click="validateManifest()">Validate</button>
+    </div>
+  </main>
+</div>
 
 <template x-for="datalist in datalists">
   <datalist :id="datalist.id">

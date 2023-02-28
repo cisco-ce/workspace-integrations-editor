@@ -16,6 +16,8 @@ function createUUID(){
 
 const model = {
 
+  tabs: ['General', 'Scopes', 'xAPI', 'JSON'],
+  currentTab: 'General',
   config: null,
   showJson: false,
   datalists: [],
