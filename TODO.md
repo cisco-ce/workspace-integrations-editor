@@ -5,6 +5,7 @@ Why? Make it easy and friction-less to work with manifests, without looking up d
 
 
 Next:
+* Add tabs for scopes and xapis
 * Support for provisioning (and dynamic properties)
 * Support for required / optional for xapis
 * Support for required / optional for scopes

@@ -5,10 +5,10 @@
   "vendor": "",
   "email": "",
   "description": "",
+  "descriptionUrl": "",
   "availability": "org_private",
   "tocUrl": "",
   "apiAccess": [
-
   ],
   "xapiAccess": {
     "status": [],
