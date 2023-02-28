@@ -123,7 +123,8 @@ const model = {
   },
 
   apiLink(path, type) {
-    return `https://roomos.cisco.com/xapi/search?search=${path}&Type=${type}`;
+    const p = path.replace(/\[\*\]/g, '*'); // roomos doesnt like list search
+    return `https://roomos.cisco.com/xapi/search?search=${p}&Type=${type}`;
   },
 
 
