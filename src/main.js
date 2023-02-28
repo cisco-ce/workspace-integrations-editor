@@ -23,10 +23,33 @@ const model = {
   init() {
     const scopes = getScopes();
     this.datalists.push({ id: 'scopes', values: scopes.map(s => s.id )});
+    this.handleFileDrag();
   },
 
-  loadFromFile() {
-    const file = document.querySelector('.manifest-file').files[0];
+  home() {
+    // TODO: warn about unsaved config
+    this.config = null;
+    this.showJson = false;
+  },
+
+  handleFileDrag() {
+    const dropArea = document.querySelector('.start-page');
+    dropArea.addEventListener('dragover', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'copy';
+    });
+
+    dropArea.addEventListener('drop', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      const fileList = event.dataTransfer.files;
+      this.loadFromFile(fileList);
+    });
+  },
+
+  loadFromFile(files) {
+    const file = files[0];
     if (!file) return;
     if (file.type !== 'application/json') {
       alert('Not a JSON file');
@@ -36,15 +59,20 @@ const model = {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       this.setJson(reader.result);
+      this.incrementVersion();
     });
     reader.readAsText(file);
   },
 
-  async loadSample() {
-    this.config = await fetchJson('./sample/manifest.json');
-    // we assume you want to edit the manifest, so we auto update the version number:
+  incrementVersion() {
     const current = Number(this.config.manifestVersion) || 0;
     this.config.manifestVersion = current + 1;
+
+  },
+
+  async loadSample() {
+    this.config = await fetchJson('./sample/manifest.json');
+    this.incrementVersion();
   },
 
   async createNew() {

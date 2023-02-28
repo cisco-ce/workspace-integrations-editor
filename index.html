@@ -15,45 +15,48 @@
   x-data="model"
 >
 <header>
-  <h1>Workspace Integrations</h1>
-  <h2>Manifest Editor</h2>
+  <h1 @click="home()">Workspace Integrations</h1>
+  <h2 @click="home()">Manifest Editor</h2>
 </header>
 
-<main x-show="!config">
+<main x-show="!config" class="start-page">
   <div>
     Create new manifest or import existing from file.
   </div>
   <div>
+    You can drag and drop a manifest file here too.
+  </div>
+  <div class="buttons">
     <button @click="createNew()">Create new</button>
     <input
       class="manifest-file"
       accept=".json"
       type="file"
-      @change="loadFromFile()"
+      @change="loadFromFile($event.target.files)"
     />
     <button @click="document.querySelector('.manifest-file').click()">Load file...</button>
-    <button @click="loadSample()">Sample</button>
+    <button @click="loadSample()">Load sample</button>
   </div>
 </main>
 
 
 <main x-show="!!config">
-  <div>
-    <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
-    <button
-      @click="setJson(document.querySelector('.raw-json').value)"
-      x-show="showJson"
-    >Show UI</button>
-  </div>
   <div x-show="showJson">
     <textarea
       class="raw-json"
       :value="JSON.stringify(config, null, 2)"
     ></textarea>
+    <div class="buttons">
+      <button
+        @click="setJson(document.querySelector('.raw-json').value)"
+        x-show="showJson"
+      >Show UI</button>
+    </div>
+
   </div>
   <div x-show="!showJson">
     <template x-for="input in inputs">
-      <div>
+      <section>
         <label :for="input.id" x-text="input.name"></label>
         <template x-if="input.type === 'string'">
           <input
@@ -94,15 +97,15 @@
                   x-model="item.container[item.id]"
                   :list="input.datalist"
                 />
+                <button @click="input.remove(i)" class="remove">X</button>
                 <a
                   :href="item.url"
                   x-show="!!item.url"
                   target="_blank"
                 >Doc</a>
-                <button @click="input.remove(i)">X</button>
               </div>
             </template>
-            <div>
+            <div class="buttons">
               <button @click="input.add()">Add</button>
             </div>
           </div>
@@ -111,10 +114,11 @@
         <div class="error" x-show="input.error" x-text="input.error"></div>
       </div>
     </template>
-  </div>
-  <div>
-    <button @click="saveToFile()">Save file</button>
-    <button @click="toClipboard()">Copy</button>
+  </section>
+  <div class="buttons">
+    <button @click="saveToFile()" class="primary">Save file</button>
+    <button @click="toClipboard()">To clipboard</button>
+    <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
   </div>
 </main>
 
