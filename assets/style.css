@@ -77,7 +77,7 @@ label.required::after {
   gap: 1em;
 }
 
-input:focus {
+input:focus, textarea:focus {
   background-color: #eee;
 }
 

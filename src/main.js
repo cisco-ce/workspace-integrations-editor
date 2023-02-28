@@ -117,11 +117,12 @@ const model = {
   },
 
 
-  addApiContainer(type, container) {
+  addApiContainer(type, container, placeholder) {
     return {
       id: type,
       name: type,
       type: 'list',
+      placeholder,
       add: () => {
         container.push({
           "path": "",
@@ -177,6 +178,7 @@ const model = {
         type: 'string',
         container: this.config,
         required: true,
+        placeholder: 'UUID',
       },
       {
         id: 'manifestVersion',
@@ -192,6 +194,7 @@ const model = {
         type: 'string',
         container: this.config,
         required: true,
+        placeholder: 'Name of integration, as it will appear on Control Hub',
       },
       {
         id: 'vendor',
@@ -199,6 +202,7 @@ const model = {
         type: 'string',
         container: this.config,
         required: true,
+        placeholder: 'Company that created the integration'
       },
       {
         id: 'email',
@@ -214,31 +218,35 @@ const model = {
         type: 'text',
         container: this.config,
         required: true,
+        placeholder: 'A description of what the integration does and what value it will provide to the customer'
       },
       {
         id: 'descriptionUrl',
         name: 'Description URL',
         type: 'string',
         container: this.config,
+        placeholder: 'URL to more details about the integration '
       },
       {
         id: 'tocUrl',
         name: 'Terms URL',
         type: 'string',
         container: this.config,
+        placeholder: 'URL to terms and conditions',
+        required: this.config.availability === 'global',
       },
       {
         id: 'availability',
         name: 'Availability',
         type: 'select',
-        values: ['public', 'org_private'],
+        values: ['global', 'org_private'],
         container: this.config,
         required: true,
       },
       this.addScopeContainer(this.config.apiAccess),
-      this.addApiContainer('Status', this.config.xapiAccess?.status || []),
-      this.addApiContainer('Command', this.config.xapiAccess?.commands || []),
-      this.addApiContainer('Event', this.config.xapiAccess?.events || []),
+      this.addApiContainer('Status', this.config.xapiAccess?.status || [], 'eg Standby.State, RoomAnalytics.*'),
+      this.addApiContainer('Command', this.config.xapiAccess?.commands || [], 'eg Message.Send', 'UserInterface.Extensions.*'),
+      this.addApiContainer('Event', this.config.xapiAccess?.events || [], 'eg BootEvent, UserInterface.*'),
     ];
   },
 

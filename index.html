@@ -42,7 +42,7 @@
 
 <main x-show="!!config">
   <div>
-    For detailed help, see <a href="https://developer.webex.com/docs/api/guides/workspace-integrations-guide" target="_blank">the workspace integrations guide</a> on developer.webex.com.
+    For detailed help, see the <a href="https://developer.webex.com/docs/api/guides/workspace-integrations-guide" target="_blank">Workspace Integrations Guide</a> on developer.webex.com.
   </div>
   <div x-show="showJson">
     <textarea
@@ -70,6 +70,7 @@
             :id="input.id"
             x-model="input.container[input.id]"
             :type="input.valuespace || 'text'"
+            :placeholder="input.placeholder || ''"
           />
         </template>
         <template x-if="input.type === 'text'">
@@ -77,6 +78,7 @@
             :id="input.id"
             x-model="input.container[input.id]"
             :type="input.valuespace || 'text'"
+            :placeholder="input.placeholder || ''"
           ></textarea>
         </template>
         <template x-if="input.type === 'select'">
@@ -103,6 +105,7 @@
                 <input
                   x-model="item.container[item.id]"
                   :list="input.datalist"
+                  :placeholder="input.placeholder || ''"
                 />
                 <button @click="input.remove(i)" class="remove">X</button>
                 <a
