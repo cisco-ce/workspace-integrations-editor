@@ -58,6 +58,8 @@ main {
   background-color: white;
   margin: 2em;
   text-align: left;
+  max-height: calc(100vh - 15em);
+  overflow-y: auto;
 }
 
 label {
@@ -120,6 +122,7 @@ section {
 .buttons {
   display: flex;
   gap: 1em;
+  justify-content: center;
 }
 
 button {

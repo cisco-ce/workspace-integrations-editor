@@ -136,13 +136,13 @@
         </div>
       </template>
     </section>
-    <div class="buttons">
-      <button @click="saveToFile()" class="primary">Save file</button>
-      <button @click="toClipboard()">To clipboard</button>
-      <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
-      <button @click="validateManifest()">Validate</button>
-    </div>
   </main>
+  <div class="buttons">
+    <button @click="saveToFile()" class="primary">Save file</button>
+    <button @click="toClipboard()">To clipboard</button>
+    <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
+    <button @click="validateManifest()">Validate</button>
+  </div>
 </div>
 
 <template x-for="datalist in datalists">
