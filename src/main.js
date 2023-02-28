@@ -1,5 +1,5 @@
 async function fetchJson(url) {
-  const data = await (await fetch(url)).json();
+  const data = await (await fetch(url)).text();
   return data;
 }
 
@@ -19,6 +19,7 @@ const model = {
   config: null,
   showJson: false,
   datalists: [],
+  form: [],
 
   init() {
     const scopes = getScopes();
@@ -71,13 +72,16 @@ const model = {
   },
 
   async loadSample() {
-    this.config = await fetchJson('./sample/manifest.json');
+    const json = await fetchJson('./sample/manifest.json');
+    this.setJson(json);
     this.incrementVersion();
   },
 
   async createNew() {
-    this.config = await fetchJson('./sample/new.json');
+    const json = await fetchJson('./sample/new.json');
+    this.setJson(json);
     this.config.id = createUUID();
+
   },
 
   saveToFile() {
@@ -94,6 +98,7 @@ const model = {
   setJson(json) {
     try {
       this.config = JSON.parse(json);
+      this.createForm();
       this.showJson = false;
     }
     catch(e) {
@@ -127,10 +132,12 @@ const model = {
         container.push({
           "path": "",
           "access": "required"
-        })
+        });
+        this.createForm();
       },
       remove: (index) => {
         container.splice(index, 1);
+        this.createForm();
       },
       values: container.map(item => {
         return {
@@ -153,10 +160,12 @@ const model = {
         container.push({
           "scope": "",
           "access": "required"
-        })
+        });
+        this.createForm();
       },
       remove: (index) => {
         container.splice(index, 1);
+        this.createForm();
       },
       values: container.map(item => {
         return {
@@ -168,10 +177,31 @@ const model = {
     };
   },
 
-  get inputs() {
+  validateManifest() {
+    let errors = 0;
+    this.form.forEach((input) => {
+      if (input.type !== 'list') {
+        let value = input.container[input.id];
+        if (value && value.trim) {
+          value = value.trim();
+        }
+        input.error = (input.required && !value)
+          ? 'Field is required'
+          : null;
+        if (input.error) {
+          errors += 1;
+        }
+      }
+    });
+
+    const msg = errors ? `Manifest contains ${errors} errors` : 'Manifest is valid!';
+    alert(msg);
+  },
+
+  createForm() {
     if (!this.config) return [];
 
-    return [
+    this.form = [
       {
         id: 'id',
         name: 'ID',
@@ -221,6 +251,14 @@ const model = {
         placeholder: 'A description of what the integration does and what value it will provide to the customer'
       },
       {
+        id: 'availability',
+        name: 'Availability',
+        type: 'select',
+        values: ['global', 'org_private'],
+        container: this.config,
+        required: true,
+      },
+      {
         id: 'descriptionUrl',
         name: 'Description URL',
         type: 'string',
@@ -234,14 +272,6 @@ const model = {
         container: this.config,
         placeholder: 'URL to terms and conditions',
         required: this.config.availability === 'global',
-      },
-      {
-        id: 'availability',
-        name: 'Availability',
-        type: 'select',
-        values: ['global', 'org_private'],
-        container: this.config,
-        required: true,
       },
       this.addScopeContainer(this.config.apiAccess),
       this.addApiContainer('Status', this.config.xapiAccess?.status || [], 'eg Standby.State, RoomAnalytics.*'),

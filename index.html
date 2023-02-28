@@ -58,7 +58,7 @@
 
   </div>
   <div x-show="!showJson">
-    <template x-for="input in inputs">
+    <template x-for="input in form">
       <section>
         <label
           :for="input.id"
@@ -129,6 +129,7 @@
     <button @click="saveToFile()" class="primary">Save file</button>
     <button @click="toClipboard()">To clipboard</button>
     <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
+    <button @click="validateManifest()">Validate</button>
   </div>
 </main>
 
