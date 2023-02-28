@@ -64,6 +64,13 @@ label {
   margin-bottom: 10px;
 }
 
+label.required::after {
+  content: '*';
+  color: #cc1010;
+  margin-left: 5px;
+  font-size: 15px;
+}
+
 .list {
   display: flex;
   flex-direction: column;
