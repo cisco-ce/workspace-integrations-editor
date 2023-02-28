@@ -34,7 +34,7 @@ const model = {
   },
 
   handleFileDrag() {
-    const dropArea = document.querySelector('.start-page');
+    const dropArea = document.querySelector('body');
     dropArea.addEventListener('dragover', (event) => {
       event.stopPropagation();
       event.preventDefault();
