@@ -1,7 +1,8 @@
 :root {
-  --main-accent: #1170cf;
+  --main-accent: black;
   --header-height: 4em;
   --error: #cc1010;
+  --blue: #1170cf;
 }
 
 * {
@@ -19,6 +20,7 @@ body {
   background-color: #f7f7f7;
   text-align: center;
   padding-top: calc(var(--header-height) + 1em);
+  font-size: 14px;
 }
 
 header {
@@ -128,8 +130,8 @@ button {
 button, input, textarea, select {
   font-size: inherit;
   font-family: inherit;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 20px;
+  padding: 10px 20px;
 }
 
 .buttons button, .buttons button.primary:hover {
@@ -144,7 +146,7 @@ button, input, textarea, select {
 }
 
 a {
-  color: var(--main-accent);
+  color: var(--blue);
   text-decoration: none;
 }
 
@@ -160,7 +162,11 @@ input, textarea {
 
 button.remove {
   border: 0;
-  background-color: 0;
+  background-color: transparent;
+}
+
+button.remove:hover {
+  background-color: #eee;
 }
 
 .tabs {
