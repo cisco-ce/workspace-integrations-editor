@@ -9,7 +9,7 @@ Next:
 * Support for provisioning (and dynamic properties)
 * Support for required / optional for xapis
 * Support for required / optional for scopes
-
+* Warn about unsaved changes
 
 Features:
 
@@ -29,5 +29,4 @@ Features:
   * Show number of matching apis (when using wild card)
   * Show description for found apis
 
-* Use chrome file api when available
 ✅ Validate when reading manifest from file

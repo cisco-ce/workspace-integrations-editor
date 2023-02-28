@@ -35,7 +35,7 @@
       @change="loadFromFile($event.target.files)"
     />
     <button @click="document.querySelector('.manifest-file').click()">Load file...</button>
-    <button @click="loadSample()">Load sample</button>
+    <button @click="loadSample()" x-show="devMode">Load sample</button>
   </div>
 </main>
 

@@ -20,11 +20,14 @@ const model = {
   showJson: false,
   datalists: [],
   form: [],
+  devMode: false,
 
   init() {
     const scopes = getScopes();
     this.datalists.push({ id: 'scopes', values: scopes.map(s => s.id )});
     this.handleFileDrag();
+    const params = new URLSearchParams(location.search);
+    this.devMode = params.has('dev');
   },
 
   home() {
