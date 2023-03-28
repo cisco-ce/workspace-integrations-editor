@@ -207,4 +207,12 @@ const model = {
     this.form = elements;
   },
 
+  xapiExample(type) {
+    const list = {
+      commands: 'Audio.Volume.Set, UserInterface.Extensions.*',
+      status: 'Audio.Volume, RoomAnalytics.*',
+      events: 'SystemUnit.Boot, UserInterface.Extensions.*',
+    };
+    return list[type] || '';
+  },
 };
