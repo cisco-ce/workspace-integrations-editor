@@ -192,7 +192,7 @@ const model = {
     if (!this.config.xapiAccess[type]) {
       this.config.xapiAccess[type] = [];
     }
-    this.config.xapiAccess[type][index].path = path;
+    this.config.xapiAccess[type][index].path = path.replaceAll(' ', '.');
   },
 
   removeApi(type, index) {

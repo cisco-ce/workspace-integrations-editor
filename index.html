@@ -87,12 +87,12 @@
               @change="input.onChange($event.target.value)"
               :value="config[input.id]"
             >
-              <template x-for="value in input.values">
+              <template x-for="value in Object.keys(input.values)">
                 <!-- :selected is also needed because x-model is run before :value -->
                 <option
                   :value="value"
                   :selected="value === config[input.id]"
-                  x-text="value"
+                  x-text="input.values[value]"
                 ></option>
               </template>
             </select>

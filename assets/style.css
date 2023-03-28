@@ -143,12 +143,12 @@ section {
 button {
   cursor: pointer;
   outline: 0;
+  border-radius: 20px;
 }
 
 button, input, textarea, select {
   font-size: inherit;
   font-family: inherit;
-  border-radius: 20px;
   padding: 10px 20px;
 }
 
@@ -172,7 +172,7 @@ a:hover {
   text-decoration: underline;
 }
 
-input, textarea {
+input, textarea, select {
   border: 1px solid #ddd;
   background-color: #eee;
   border-radius: 10px;

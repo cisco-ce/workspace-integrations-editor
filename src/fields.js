@@ -49,7 +49,7 @@ const formFields = [
     id: 'availability',
     name: 'Availability',
     type: 'select',
-    values: ['global', 'org_private'],
+    values: { global: 'Global', org_private: 'Org private' },
     required: true,
     helpText: 'Whether the integration will be available only in your org, or to all customers.'
   },
