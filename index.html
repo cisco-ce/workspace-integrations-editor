@@ -112,13 +112,20 @@
         <option value="manual">Manual</option>
         <option value="https">https</option>
       </select>
-      <label
+      <div class="help-text">Manual: Admin must copy activation code (JWT) from Control Hub.
+        <br/>https: activation code will be sent to an external web page.
+      </div>
+      <div x-show="config?.provisioning?.type === 'https'">
+        <label
         :class="config?.provisioning?.type === 'https' ? 'required' : ''"
       >Provisioning URL</label>
       <input
         :value="config?.provisioning?.url"
         @input="config.provisioning.url = $event.target.value"
       />
+      <div class="help-text">Where the JWT will be POSTed. Only required if type is https.</div>
+
+      </div>
     </section>
 
   </main>
@@ -163,9 +170,9 @@
     Pick which device status, commands and events the integration has access to.
     <p/>Explore the xAPI in a <a class="simple" @click="showXapiHelp = !showXapiHelp">sidebar</a> or <a href="https://roomos.cisco.com/xapi" target="_blank">new tab</a>.
     <template x-for="type in ['status', 'commands', 'events']">
-      <div class="list">
+      <section class="list">
         <label x-text="type"></label>
-        <i x-show="!config?.xapiAccess?.[type]?.length">List is empty</i>
+        <!-- <i x-show="!config?.xapiAccess?.[type]?.length">List is empty</i> -->
         <template x-for="xapi, pos in config?.xapiAccess?.[type]">
           <div>
             <input
@@ -185,7 +192,7 @@
         <div>
           <button @click="addApi(type)" class="simple add">+Add</button>
         </div>
-      </div>
+      </section>
     </template>
     <iframe class="xapi-help" x-show="showXapiHelp" src="https://roomos.cisco.com/xapi"></iframe>
   </main>

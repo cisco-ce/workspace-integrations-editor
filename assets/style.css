@@ -134,6 +134,10 @@ section {
   margin-bottom: 1em;
 }
 
+section:last-of-type {
+  border-bottom: 0;
+}
+
 .buttons {
   display: flex;
   gap: 1em;
