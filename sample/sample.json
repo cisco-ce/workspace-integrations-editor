@@ -9,13 +9,11 @@
   "apiAccess": [
     {
       "scope": "spark-admin:devices_read",
-      "access": "required",
-      "role": "id_readonly_admin"
+      "access": "required"
     },
     {
       "scope": "spark-admin:workspaces_read",
-      "access": "required",
-      "role": "id_readonly_admin"
+      "access": "required"
     },
     {
       "scope": "spark:xapi_statuses",

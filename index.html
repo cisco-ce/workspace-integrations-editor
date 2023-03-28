@@ -7,6 +7,7 @@
   <title>Manifest editor</title>
   <link rel="stylesheet" href="./assets/style.css"></link>
   <script src="src/scopes.js" defer></script>
+  <script src="src/fields.js" defer></script>
   <script src="src/main.js" defer></script>
   <script src="./src/alpine.js" defer></script>
 </head>
@@ -40,7 +41,6 @@
   </div>
 </main>
 
-
 <div x-show="!!config">
   <div class="tabs">
     <template x-for="tab in tabs">
@@ -51,24 +51,11 @@
       ></button>
     </template>
   </div>
-  <main>
+  <main x-show="currentTab === 'General'">
     <div>
       For detailed help, see the <a href="https://developer.webex.com/docs/api/guides/workspace-integrations-guide" target="_blank">Workspace Integrations Guide</a> on developer.webex.com.
     </div>
-    <div x-show="showJson">
-      <textarea
-        class="raw-json"
-        :value="JSON.stringify(config, null, 2)"
-      ></textarea>
-      <div class="buttons">
-        <button
-          @click="setJson(document.querySelector('.raw-json').value)"
-          x-show="showJson"
-        >Show UI</button>
-      </div>
-
-    </div>
-    <div x-show="!showJson">
+    <div>
       <template x-for="input in form">
         <section>
           <label
@@ -79,7 +66,8 @@
           <template x-if="input.type === 'string'">
             <input
               :id="input.id"
-              x-model="input.container[input.id]"
+              @change="input.onChange($event.target.value)"
+              :value="config[input.id]"
               :type="input.valuespace || 'text'"
               :placeholder="input.placeholder || ''"
             />
@@ -87,49 +75,26 @@
           <template x-if="input.type === 'text'">
             <textarea
               :id="input.id"
-              x-model="input.container[input.id]"
+              @change="input.onChange($event.target.value)"
+              :value="config[input.id]"
               :type="input.valuespace || 'text'"
               :placeholder="input.placeholder || ''"
             ></textarea>
           </template>
           <template x-if="input.type === 'select'">
-            <select x-model="input.container[input.id]">
+            <select
+              @change="input.onChange($event.target.value)"
+              :value="config[input.id]"
+            >
               <template x-for="value in input.values">
                 <!-- :selected is also needed because x-model is run before x-for -->
                 <option
                   :value="value"
-                  :selected="value === input.container[input.id]"
+                  :selected="value === config[input.id]"
                   x-text="value"
                 ></option>
               </template>
             </select>
-          </template>
-          <template x-if="input.type === 'list'">
-            <div class="list">
-              <template x-if="input.values.length < 1">
-                <div>
-                  <i>List is empty.</i>
-                </div>
-              </template>
-              <template x-for="item, i in input.values">
-                <div>
-                  <input
-                    x-model="item.container[item.id]"
-                    :list="input.datalist"
-                    :placeholder="input.placeholder || ''"
-                  />
-                  <button @click="input.remove(i)" class="remove">X</button>
-                  <a
-                    :href="item.url"
-                    x-show="!!item.url"
-                    target="_blank"
-                  >Doc</a>
-                </div>
-              </template>
-              <div class="buttons">
-                <button @click="input.add()">Add</button>
-              </div>
-            </div>
           </template>
           <div class="warning" x-show="input.warning" x-text="input.warning"></div>
           <div class="error" x-show="input.error" x-text="input.error"></div>
@@ -137,11 +102,82 @@
       </template>
     </section>
   </main>
+
+  <main x-show="currentTab === 'Scopes'">
+    Scope is a mechanism to let the integration request limited access to an organization's data.
+    <p/>
+    See all scopes on <a href="https://developer.webex.com/docs/integrations#scopes" target="_blank">developer.webex.com</a>.
+    <div class="list">
+      <template x-if="config?.apiAccess.length < 1">
+        <div>
+          <i>No scopes have been defined.</i>
+        </div>
+      </template>
+      <template x-for="item, i in config?.apiAccess">
+        <div>
+          <input
+            :value="item.scope"
+            list="scopes"
+            @input="updateScope(i, $event.target.value)"
+          />
+          <input
+            type="checkbox"
+            :checked="item.access === 'required'"
+            @change="item.access = $event.target.checked ? 'required' : 'optional'"
+          /> Required
+          <button @click="removeScope(i)" class="simple">X</button>
+        </div>
+      </template>
+      <div>
+        <button @click="addScope()" class="simple add">+Add</button>
+      </div>
+    </div>
+  </main>
+
+  <main x-show="currentTab === 'xAPI'">
+    Pick which device status, commands and events the integration has access to.
+    <p/>This will also determine which events and status updates the integration receives.
+    <p/>Explore the full xAPI on <a href="https://roomos.cisco.com/xapi" target="_blank">roomos.cisco.com</a>.
+    <template x-for="type in ['status', 'commands', 'events']">
+      <div class="list">
+        <label x-text="type"></label>
+        <i x-show="!config?.xapiAccess?.[type]?.length">List is empty</i>
+        <template x-for="xapi, pos in config?.xapiAccess?.[type]">
+          <div>
+            <input
+              :key="xapi.path"
+              :value="xapi.path"
+              @input="updateApi(type, pos, $event.target.value)"
+            />
+            <input
+              type="checkbox"
+              :checked="xapi.access === 'required'"
+              @change="xapi.access = $event.target.checked ? 'required' : 'optional'"
+            /> Required
+            <button @click="removeApi(type, pos)" class="simple">X</button>
+          </div>
+        </template>
+        <div>
+          <button @click="addApi(type)" class="simple add">+Add</button>
+        </div>
+
+      </div>
+    </template>
+  </main>
+
+  <main x-show="currentTab === 'JSON'">
+    <textarea
+      class="raw-json"
+      :class="jsonValid ? 'valid' : 'invalid'"
+      :value="JSON.stringify(config, null, 2)"
+      @input="onJSONEdited($event.target.value)"
+    ></textarea>
+  </main>
+
   <div class="buttons">
     <button @click="saveToFile()" class="primary">Save file</button>
     <button @click="toClipboard()">To clipboard</button>
-    <button @click="showJson = true;" x-show="!showJson">Raw JSON</button>
-    <button @click="validateManifest()">Validate</button>
+    <!-- <button @click="validateManifest()">Validate</button> -->
   </div>
 </div>
 

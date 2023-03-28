@@ -62,12 +62,17 @@ main {
   overflow-y: auto;
 }
 
+p {
+  margin-bottom: 0;
+}
+
 label {
   display: block;
   margin-top: 20px;
   color: #555;
   font-size: 13px;
   margin-bottom: 10px;
+  text-transform: capitalize;
 }
 
 label.required::after {
@@ -91,13 +96,23 @@ input, textarea {
   width: 30em;
 }
 
+input[type="checkbox"] {
+  width: unset;
+}
+
 textarea {
   height: 5em;
 }
 
 textarea.raw-json {
   height: 60vh;
+  width: 80vw;
+  max-width: 800px;
   line-height: 1.5em;
+}
+
+textarea.invalid, textarea.invalid:focus {
+  background-color: #fbcfcf;
 }
 
 div.error {
@@ -163,12 +178,16 @@ input, textarea {
   padding: 10px;
 }
 
-button.remove {
+button.simple {
   border: 0;
   background-color: transparent;
 }
 
-button.remove:hover {
+button.add {
+  color: #046eb1;
+}
+
+button.simple:hover {
   background-color: #eee;
 }
 
@@ -181,6 +200,10 @@ button.remove:hover {
 .tabs button {
   background: transparent;
   border: 0;
+}
+
+.tabs button:hover {
+  background-color: #ddd;
 }
 
 .tabs button.selected {

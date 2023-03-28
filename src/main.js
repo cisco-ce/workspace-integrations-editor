@@ -19,10 +19,10 @@ const model = {
   tabs: ['General', 'Scopes', 'xAPI', 'JSON'],
   currentTab: 'General',
   config: null,
-  showJson: false,
   datalists: [],
   form: [],
   devMode: false,
+  jsonValid: true,
 
   init() {
     const scopes = getScopes();
@@ -35,7 +35,6 @@ const model = {
   home() {
     // TODO: warn about unsaved config
     this.config = null;
-    this.showJson = false;
   },
 
   handleFileDrag() {
@@ -64,10 +63,20 @@ const model = {
 
     const reader = new FileReader();
     reader.addEventListener('load', () => {
-      this.setJson(reader.result);
+      this.setConfig(reader.result);
       this.incrementVersion();
     });
     reader.readAsText(file);
+  },
+
+  onJSONEdited(json) {
+    try {
+      this.config = JSON.parse(json);
+      this.jsonValid = true;
+    }
+    catch(e) {
+      this.jsonValid = false;
+    }
   },
 
   incrementVersion() {
@@ -77,20 +86,34 @@ const model = {
   },
 
   async loadSample() {
-    const json = await fetchJson('./sample/manifest.json');
-    this.setJson(json);
+    const json = await fetchJson('./sample/sample.json');
+    this.setConfig(json);
     this.incrementVersion();
   },
 
   async createNew() {
     const json = await fetchJson('./sample/new.json');
-    this.setJson(json);
+    this.setConfig(json);
     this.config.id = createUUID();
 
   },
 
+  getCleanJSON() {
+    const config = this.config;
+    if (!config) return '';
+    if (config.apiAccess) {
+      config.apiAccess = config.apiAccess.filter(i => i.scope?.trim());
+    }
+    if (config.xapiAccess) {
+      config.xapiAccess.status = config.xapiAccess.status.filter(i => i.path?.trim());
+      config.xapiAccess.commands = config.xapiAccess.commands.filter(i => i.path?.trim());
+      this.config.xapiAccess.events = config.xapiAccess.events.filter(i => i.path?.trim());
+    }
+    return JSON.stringify(config, null, 2);
+  },
+
   saveToFile() {
-    const text = JSON.stringify(this.config, null, 2);
+    const text = this.getCleanJSON();
     const data = new Blob([text], { type: 'text/plain' });
     const dataUrl = window.URL.createObjectURL(data);
     const link = document.createElement('a');
@@ -100,11 +123,10 @@ const model = {
     window.requestAnimationFrame(() => link.click());
   },
 
-  setJson(json) {
+  setConfig(json) {
     try {
       this.config = JSON.parse(json);
       this.createForm();
-      this.showJson = false;
     }
     catch(e) {
       alert('Not able to parse JSON.');
@@ -112,7 +134,7 @@ const model = {
   },
 
   toClipboard() {
-    const json = JSON.stringify(this.config, null, 2);
+    const json = this.getCleanJSON();
     navigator.clipboard.writeText(json)
     .then(() => {
       alert('JSON copied to clipboard');
@@ -127,163 +149,58 @@ const model = {
     return `https://roomos.cisco.com/xapi/search?search=${p}&Type=${type}`;
   },
 
-
-  addApiContainer(type, container, placeholder) {
-    return {
-      id: type,
-      name: type,
-      type: 'list',
-      placeholder,
-      add: () => {
-        container.push({
-          "path": "",
-          "access": "required"
-        });
-        this.createForm();
-      },
-      remove: (index) => {
-        container.splice(index, 1);
-        this.createForm();
-      },
-      values: container.map(item => {
-        return {
-          container: item,
-          id: 'path',
-          type: 'string',
-          url: item.path && this.apiLink(item.path, type),
-        };
-      }),
-    };
-  },
-
-  addScopeContainer(container) {
-    return {
-      id: 'apiAccess',
-      name: 'API scopes',
-      type: 'list',
-      datalist: 'scopes',
-      add: () => {
-        container.push({
-          "scope": "",
-          "access": "required"
-        });
-        this.createForm();
-      },
-      remove: (index) => {
-        container.splice(index, 1);
-        this.createForm();
-      },
-      values: container.map(item => {
-        return {
-          container: item,
-          id: 'scope',
-          type: 'string',
-        };
-      }),
-    };
-  },
-
   validateManifest() {
-    let errors = 0;
-    this.form.forEach((input) => {
-      if (input.type !== 'list') {
-        let value = input.container[input.id];
-        if (value && value.trim) {
-          value = value.trim();
-        }
-        input.error = (input.required && !value)
-          ? 'Field is required'
-          : null;
-        if (input.error) {
-          errors += 1;
-        }
-      }
-    });
+  },
 
-    const msg = errors ? `Manifest contains ${errors} errors` : 'Manifest is valid!';
-    alert(msg);
+  addScope() {
+    if (!this.config.apiAccess) {
+      this.config.apiAccess = [];
+    }
+    this.config.apiAccess.push({ scope: '', access: 'required' });
+  },
+
+  updateScope(index, name) {
+    if (!this.config.apiAccess) {
+      this.config.apiAccess = [];
+    }
+    this.config.apiAccess[index].scope = name;
+  },
+
+  removeScope(index) {
+    this.config.apiAccess.splice(index, 1);
+  },
+
+
+  addApi(type) {
+    if (!this.config.xapiAccess) {
+      this.config.xapiAccess = [];
+    }
+    if (!this.config.xapiAccess[type]) {
+      this.config.xapiAccess[type] = [];
+    }
+    this.config.xapiAccess[type].push({ path: '', access: 'required' });
+  },
+
+  updateApi(type, index, path) {
+    if (!this.config.xapiAccess) {
+      this.config.xapiAccess = [];
+    }
+    if (!this.config.xapiAccess[type]) {
+      this.config.xapiAccess[type] = [];
+    }
+    this.config.xapiAccess[type][index].path = path;
+  },
+
+  removeApi(type, index) {
+    this.config.xapiAccess[type].splice(index, 1);
   },
 
   createForm() {
     if (!this.config) return [];
 
-    this.form = [
-      {
-        id: 'id',
-        name: 'ID',
-        type: 'string',
-        container: this.config,
-        required: true,
-        placeholder: 'UUID',
-      },
-      {
-        id: 'manifestVersion',
-        name: 'Manifest version',
-        type: 'string',
-        valuespace: 'number',
-        container: this.config,
-        required: true,
-      },
-      {
-        id: 'displayName',
-        name: 'Display Name',
-        type: 'string',
-        container: this.config,
-        required: true,
-        placeholder: 'Name of integration, as it will appear on Control Hub',
-      },
-      {
-        id: 'vendor',
-        name: 'Vendor',
-        type: 'string',
-        container: this.config,
-        required: true,
-        placeholder: 'Company that created the integration'
-      },
-      {
-        id: 'email',
-        name: 'E-mail',
-        type: 'string',
-        valuespace: 'email',
-        container: this.config,
-        required: true,
-      },
-      {
-        id: 'description',
-        name: 'Description',
-        type: 'text',
-        container: this.config,
-        required: true,
-        placeholder: 'A description of what the integration does and what value it will provide to the customer'
-      },
-      {
-        id: 'availability',
-        name: 'Availability',
-        type: 'select',
-        values: ['global', 'org_private'],
-        container: this.config,
-        required: true,
-      },
-      {
-        id: 'descriptionUrl',
-        name: 'Description URL',
-        type: 'string',
-        container: this.config,
-        placeholder: 'URL to more details about the integration '
-      },
-      {
-        id: 'tocUrl',
-        name: 'Terms URL',
-        type: 'string',
-        container: this.config,
-        placeholder: 'URL to terms and conditions',
-        required: this.config.availability === 'global',
-      },
-      this.addScopeContainer(this.config.apiAccess),
-      this.addApiContainer('Status', this.config.xapiAccess?.status || [], 'eg Standby.State, RoomAnalytics.*'),
-      this.addApiContainer('Command', this.config.xapiAccess?.commands || [], 'eg Message.Send', 'UserInterface.Extensions.*'),
-      this.addApiContainer('Event', this.config.xapiAccess?.events || [], 'eg BootEvent, UserInterface.*'),
-    ];
+    const elements = formFields;
+    elements.forEach(el => el.onChange = value => this.config[el.id] = value);
+    this.form = elements;
   },
 
 };
