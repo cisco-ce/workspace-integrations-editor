@@ -70,6 +70,7 @@
               :value="config[input.id]"
               :type="input.valuespace || 'text'"
               :placeholder="input.placeholder || ''"
+              :disabled="!!input.readOnly"
             />
           </template>
           <template x-if="input.type === 'text'">
@@ -190,12 +191,14 @@
   </main>
 
   <main x-show="currentTab === 'JSON'">
+    You can manually edit the manifest JSON here.
     <textarea
       class="raw-json"
       :class="jsonValid ? 'valid' : 'invalid'"
       :value="JSON.stringify(config, null, 2)"
       @input="onJSONEdited($event.target.value)"
     ></textarea>
+    <div x-show="!jsonValid" class="error">JSON is currently not valid. Remember " around all keys and strings, and no dangling commas.</div>
   </main>
 
   <div class="buttons">
