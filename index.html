@@ -96,8 +96,7 @@
               </template>
             </select>
           </template>
-          <div class="warning" x-show="input.warning" x-text="input.warning"></div>
-          <div class="error" x-show="input.error" x-text="input.error"></div>
+          <div class="help-text" x-show="input.helpText" x-text="input.helpText"></div>
         </div>
       </template>
     </section>
@@ -146,6 +145,11 @@
             @change="item.access = $event.target.checked ? 'required' : 'optional'"
           /> Required
           <button @click="removeScope(i)" class="simple">X</button>
+          <div
+            class="help-text"
+            x-show="getScopeHelp(item.scope)"
+            x-text="getScopeHelp(item.scope)"
+          ></div>
         </div>
       </template>
       <div>

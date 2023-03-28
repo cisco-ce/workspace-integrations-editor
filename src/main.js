@@ -170,6 +170,9 @@ const model = {
     this.config.apiAccess.splice(index, 1);
   },
 
+  getScopeHelp(name) {
+    return getScopes().find(s => s.id === name)?.info;
+  },
 
   addApi(type) {
     if (!this.config.xapiAccess) {

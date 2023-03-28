@@ -4,7 +4,7 @@ const formFields = [
     name: 'ID',
     type: 'string',
     required: true,
-    placeholder: 'UUID',
+    helpText: 'UUID',
   },
   {
     id: 'manifestVersion',
@@ -18,14 +18,14 @@ const formFields = [
     name: 'Display Name',
     type: 'string',
     required: true,
-    placeholder: 'Name of integration, as it will appear on Control Hub',
+    helpText: 'Name of integration, as it will appear on Control Hub',
   },
   {
     id: 'vendor',
     name: 'Vendor',
     type: 'string',
     required: true,
-    placeholder: 'Company that created the integration'
+    helpText: 'Company that created the integration'
   },
   {
     id: 'email',
@@ -39,7 +39,7 @@ const formFields = [
     name: 'Description',
     type: 'text',
     required: true,
-    placeholder: 'A description of what the integration does and what value it will provide to the customer'
+    helpText: 'A description of what the integration does and what value it will provide to the customer'
   },
   {
     id: 'availability',
@@ -52,13 +52,13 @@ const formFields = [
     id: 'descriptionUrl',
     name: 'Description URL',
     type: 'string',
-    placeholder: 'URL to more details about the integration '
+    helpText: 'URL to more details about the integration '
   },
   {
     id: 'tocUrl',
     name: 'Terms URL',
     type: 'string',
-    placeholder: 'URL to terms and conditions',
+    helpText: 'URL to terms and conditions',
     required: false, // this.config.availability === 'global',
   }
 ];
