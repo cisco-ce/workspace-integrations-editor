@@ -87,7 +87,7 @@
               :value="config[input.id]"
             >
               <template x-for="value in input.values">
-                <!-- :selected is also needed because x-model is run before x-for -->
+                <!-- :selected is also needed because x-model is run before :value -->
                 <option
                   :value="value"
                   :selected="value === config[input.id]"
@@ -101,6 +101,26 @@
         </div>
       </template>
     </section>
+
+    <!-- This one needs to be handled by hand: -->
+    <section>
+      <label>Provisioning type</label>
+      <select
+        @change="config.provisioning.type = $event.target.value"
+        :value="config?.provisioning?.type"
+      >
+        <option value="manual">Manual</option>
+        <option value="https">https</option>
+      </select>
+      <label
+        :class="config?.provisioning?.type === 'https' ? 'required' : ''"
+      >Provisioning URL</label>
+      <input
+        :value="config?.provisioning?.url"
+        @input="config.provisioning.url = $event.target.value"
+      />
+    </section>
+
   </main>
 
   <main x-show="currentTab === 'Scopes'">

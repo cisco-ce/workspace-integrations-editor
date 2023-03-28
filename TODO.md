@@ -4,7 +4,6 @@ Why? Make it easy and friction-less to work with manifests, without looking up d
 
 
 Next:
-* Support for provisioning (and dynamic properties)
 * Warn about unsaved changes
 
 Features:

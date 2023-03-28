@@ -60,6 +60,5 @@ const formFields = [
     type: 'string',
     placeholder: 'URL to terms and conditions',
     required: false, // this.config.availability === 'global',
-  },
-
+  }
 ];
