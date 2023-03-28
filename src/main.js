@@ -23,6 +23,7 @@ const model = {
   form: [],
   devMode: false,
   jsonValid: true,
+  showXapiHelp: false,
 
   init() {
     const scopes = getScopes();

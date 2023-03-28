@@ -35,6 +35,7 @@ const formFields = [
     name: 'E-mail',
     type: 'string',
     valuespace: 'email',
+    helpText: '	An email address from the integration vendor',
     required: true,
   },
   {

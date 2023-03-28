@@ -216,3 +216,14 @@ button.simple:hover {
   opacity: 0.8;
   margin-top: 1em;
 }
+
+iframe.xapi-help {
+  position: absolute;
+  top: var(--header-height);
+  right: 0;
+  width: 25vw;
+  height: calc(100% - var(--header-height));
+  background-color: white;
+  border: 0;
+  border-left: 1px solid #ccc;
+}
