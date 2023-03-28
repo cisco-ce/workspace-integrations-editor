@@ -112,7 +112,7 @@ textarea.raw-json {
 }
 
 textarea.invalid, textarea.invalid:focus {
-  background-color: #fbcfcf;
+  background-color: #f9e4e4;
 }
 
 div.error {
@@ -173,7 +173,8 @@ a:hover {
 }
 
 input, textarea {
-  border: 1px solid #333;
+  border: 1px solid #ddd;
+  background-color: #eee;
   border-radius: 10px;
   padding: 10px;
 }
