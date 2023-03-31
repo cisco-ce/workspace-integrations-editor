@@ -9,6 +9,8 @@ It is a client-only web application and is hosted on <a href="https://cisco-ce.g
 
 *Author: Tore Bjølseth, Cisco*
 
+PR's are welcome!
+
 ## Purpose
 
 The purpose of the editor is to quickly get you started making a manifest file, as well as making life easier by:
