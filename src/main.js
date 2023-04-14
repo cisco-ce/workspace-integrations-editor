@@ -106,9 +106,9 @@ const model = {
       config.apiAccess = config.apiAccess.filter(i => i.scope?.trim());
     }
     if (config.xapiAccess) {
-      config.xapiAccess.status = config.xapiAccess.status.filter(i => i.path?.trim());
-      config.xapiAccess.commands = config.xapiAccess.commands.filter(i => i.path?.trim());
-      this.config.xapiAccess.events = config.xapiAccess.events.filter(i => i.path?.trim());
+      config.xapiAccess.status = config.xapiAccess?.status?.filter(i => i.path?.trim()) || [];
+      config.xapiAccess.commands = config.xapiAccess?.commands?.filter(i => i.path?.trim()) || [];
+      this.config.xapiAccess.events = config.xapiAccess?.events?.filter(i => i.path?.trim()) || [];
     }
     return JSON.stringify(config, null, 2);
   },
