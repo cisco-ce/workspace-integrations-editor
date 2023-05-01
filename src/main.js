@@ -25,12 +25,38 @@ const model = {
   jsonValid: true,
   showXapiHelp: false,
 
-  init() {
+  async init() {
     const scopes = getScopes();
     this.datalists.push({ id: 'scopes', values: scopes.map(s => s.id )});
     this.handleFileDrag();
     const params = new URLSearchParams(location.search);
     this.devMode = params.has('dev');
+    this.fetchXapis();
+  },
+
+  async fetchXapis() {
+    // TODO roomos.cisco.com currently doesnt allow CORS
+    // const url = 'https://roomos.cisco.com/api/search';
+    const url = './xapi.json';
+    try {
+      const data = await (await fetch(url)).json();
+      const getPaths = type => {
+        const nodes = data.filter(n => n.type === type);
+        const paths = nodes.map(n => n.path
+          .replaceAll(' ', '.')
+          .replace(/\[[\w\.]*\]/g, '[*]')
+        );
+        const unique = Array.from(new Set(paths));
+        return unique;
+      }
+
+      this.datalists.push({ id: 'status', values: getPaths('Status') });
+      this.datalists.push({ id: 'events', values: getPaths('Event') });
+      this.datalists.push({ id: 'commands', values: getPaths('Command') });
+    }
+    catch(e) {
+      console.log(e);
+    }
   },
 
   home() {

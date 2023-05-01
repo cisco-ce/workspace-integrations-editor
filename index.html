@@ -179,6 +179,7 @@
             <input
               :key="xapi.path"
               :value="xapi.path"
+              :list="type"
               :placeholder="xapiExample(type)"
               @input="updateApi(type, pos, $event.target.value)"
             />
