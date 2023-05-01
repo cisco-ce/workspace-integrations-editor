@@ -192,6 +192,7 @@
             <div
               class="help-text"
               :title="xapiHelp(type, xapi.path)"
+              x-show="xapi.path"
             >
               <span class="limited" x-text="xapiHelp(type, xapi.path)"></span>
               <a :href="apiLink(xapi.path, type)" target="_blank">More...</a>
