@@ -169,7 +169,7 @@
 
   <main x-show="currentTab === 'xAPI'">
     Pick which device status, commands and events the integration has access to.
-    <p/>Explore the xAPI in a <a class="simple" @click="showXapiHelp = !showXapiHelp">sidebar</a> or <a href="https://roomos.cisco.com/xapi" target="_blank">new tab</a>.
+    <p/>Explore the xAPI on <a href="https://roomos.cisco.com/xapi" target="_blank">roomos.cisco.com</a>.
     <template x-for="type in ['status', 'commands', 'events']">
       <section class="list">
         <label x-text="type"></label>
@@ -204,7 +204,6 @@
         </div>
       </section>
     </template>
-    <iframe class="xapi-help" x-show="showXapiHelp" src="https://roomos.cisco.com/xapi"></iframe>
   </main>
 
   <main x-show="currentTab === 'JSON'">

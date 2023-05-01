@@ -31,7 +31,6 @@ const model = {
   form: [],
   devMode: false,
   jsonValid: true,
-  showXapiHelp: false,
   xapiDocs: [],
 
   async init() {
