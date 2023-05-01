@@ -5,6 +5,9 @@
   --blue: #1170cf;
 }
 
+/* avoids alpine.js load blinking */
+[x-cloak] { display: none !important; }
+
 * {
   box-sizing: border-box;
 }
