@@ -14,7 +14,6 @@ const formFields = [
     valuespace: 'number',
     required: true,
     helpText: 'Version number is automatically updated by the editor.',
-    readOnly: true
   },
   {
     id: 'displayName',

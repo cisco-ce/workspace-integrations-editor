@@ -65,7 +65,6 @@ const model = {
     const reader = new FileReader();
     reader.addEventListener('load', () => {
       this.setConfig(reader.result);
-      this.incrementVersion();
     });
     reader.readAsText(file);
   },
@@ -83,13 +82,11 @@ const model = {
   incrementVersion() {
     const current = Number(this.config.manifestVersion) || 0;
     this.config.manifestVersion = current + 1;
-
   },
 
   async loadSample() {
     const json = await fetchJson('./sample/sample.json');
     this.setConfig(json);
-    this.incrementVersion();
   },
 
   async createNew() {
@@ -120,6 +117,7 @@ const model = {
 
   saveToFile() {
     const text = this.getCleanJSON();
+    this.incrementVersion();
     const data = new Blob([text], { type: 'text/plain' });
     const dataUrl = window.URL.createObjectURL(data);
     const link = document.createElement('a');
@@ -141,6 +139,7 @@ const model = {
 
   toClipboard() {
     const json = this.getCleanJSON();
+    this.incrementVersion();
     navigator.clipboard.writeText(json)
     .then(() => {
       alert('JSON copied to clipboard');

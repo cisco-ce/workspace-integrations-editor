@@ -1,9 +1,5 @@
 # Manifest editor
 
-Why? Make it easy and friction-less to work with manifests, without looking up documentation constantly.
-
-Next:
-* Validate config, warn if errors
-*
-* Add a couple of examples (room analytics, report issue, bulk config)
-* Warn about unsaved changes in browser
+- Need to be able to manually change version too
+- Auto completion of xAPIs (get from roomos.cisco.com)
+- Link to sample manifests (when available)
