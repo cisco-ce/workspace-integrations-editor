@@ -14,6 +14,14 @@ function createUUID(){
   return uuid;
 }
 
+const apiTypes = { status: 'Status', events: 'Event', commands: 'Command' };
+
+function fixPath(path) {
+  return path
+    .replaceAll(' ', '.')
+    .replace(/\[[\w\.]*\]/g, '[*]');
+}
+
 const model = {
 
   tabs: ['General', 'Scopes', 'xAPI', 'JSON'],
@@ -24,6 +32,7 @@ const model = {
   devMode: false,
   jsonValid: true,
   showXapiHelp: false,
+  xapiDocs: [],
 
   async init() {
     const scopes = getScopes();
@@ -40,12 +49,10 @@ const model = {
     const url = './xapi.json';
     try {
       const data = await (await fetch(url)).json();
+      this.xapiDocs = data;
       const getPaths = type => {
         const nodes = data.filter(n => n.type === type);
-        const paths = nodes.map(n => n.path
-          .replaceAll(' ', '.')
-          .replace(/\[[\w\.]*\]/g, '[*]')
-        );
+        const paths = nodes.map(n => fixPath(n.path));
         const unique = Array.from(new Set(paths));
         return unique;
       }
@@ -57,6 +64,20 @@ const model = {
     catch(e) {
       console.log(e);
     }
+  },
+
+  xapiHelp(type, path) {
+    const t = apiTypes[type];
+    if (!path) return '';
+
+    const hit = this.xapiDocs.find(n => n.type = t && fixPath(n.path) === path);
+    if (hit) {
+      return hit.attributes?.description;
+    }
+    else if (!path.includes('*')) {
+      return `⚠️ API is not known to the editor.`
+    }
+    return '';
   },
 
   home() {
@@ -176,8 +197,12 @@ const model = {
   },
 
   apiLink(path, type) {
-    const p = path.replace(/\[\*\]/g, '*'); // roomos doesnt like list search
-    return `https://roomos.cisco.com/xapi/search?search=${p}&Type=${type}`;
+    const t = apiTypes[type];
+    const p = path
+      .replace(/\[\*\]/g, '*') // roomos doesnt like list search
+      .replaceAll('.', ' ');
+
+    return `https://roomos.cisco.com/xapi/search?search=${p}&Type=${t}`;
   },
 
   validateManifest() {

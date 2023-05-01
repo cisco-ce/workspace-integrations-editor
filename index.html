@@ -189,6 +189,13 @@
               @change="xapi.access = $event.target.checked ? 'required' : 'optional'"
             /> Required
             <button @click="removeApi(type, pos)" class="simple">X</button>
+            <div
+              class="help-text"
+              :title="xapiHelp(type, xapi.path)"
+            >
+              <span class="limited" x-text="xapiHelp(type, xapi.path)"></span>
+              <a :href="apiLink(xapi.path, type)" target="_blank">More...</a>
+            </div>
           </div>
         </template>
         <div>

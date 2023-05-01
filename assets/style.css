@@ -221,6 +221,14 @@ button.simple:hover {
   margin-top: 1em;
 }
 
+.limited {
+  display: inline-block;
+  max-width: 500px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 iframe.xapi-help {
   position: absolute;
   top: var(--header-height);
