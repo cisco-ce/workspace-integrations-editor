@@ -40,6 +40,14 @@ const model = {
     const params = new URLSearchParams(location.search);
     this.devMode = params.has('dev');
     this.fetchXapis();
+    window.onbeforeunload = this.onLeave.bind(this);
+  },
+
+  onLeave(event) {
+    if (this.config) {
+      event.preventDefault();
+      return 'You have a manifest open. Leave editor?';
+    }
   },
 
   async fetchXapis() {
@@ -139,7 +147,6 @@ const model = {
     const json = await fetchJson('./sample/new.json');
     this.setConfig(json);
     this.config.id = createUUID();
-
   },
 
   getCleanJSON() {
