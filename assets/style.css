@@ -67,6 +67,10 @@ main {
   max-width: 90%;
 }
 
+.logo {
+  width: 300px;
+}
+
 p {
   margin-bottom: 0;
 }
