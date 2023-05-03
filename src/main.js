@@ -61,10 +61,11 @@ const model = {
     // const url = 'https://roomos.cisco.com/api/search';
     const url = './xapi.json';
     try {
-      const data = await (await fetch(url)).json();
-      this.xapiDocs = data;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      this.xapiDocs = (await res.json()).objects;
       const getPaths = type => {
-        const nodes = data.filter(n => n.type === type);
+        const nodes = this.xapiDocs.filter(n => n.type === type);
         const paths = nodes.map(n => fixPath(n.path));
         const unique = Array.from(new Set(paths));
         return unique;
