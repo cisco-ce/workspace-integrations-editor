@@ -87,6 +87,9 @@ const model = {
     if (hit) {
       return hit.attributes?.description;
     }
+    else if (path.includes('*') && !path.includes('[*]')) {
+      return '⚠️ It is recommend to specify APIs explicitly rather than to use wild cards.';
+    }
     else if (!path.includes('*')) {
       return `⚠️ API is not known to the editor.`
     }
