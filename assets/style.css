@@ -63,6 +63,8 @@ main {
   text-align: left;
   max-height: calc(100vh - 15em);
   overflow-y: auto;
+  min-width: 600px;
+  max-width: 90%;
 }
 
 p {
@@ -75,7 +77,6 @@ label {
   color: #555;
   font-size: 13px;
   margin-bottom: 10px;
-  text-transform: capitalize;
 }
 
 label.required::after {

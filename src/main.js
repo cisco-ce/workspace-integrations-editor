@@ -32,6 +32,12 @@ const model = {
   devMode: false,
   jsonValid: true,
   xapiDocs: [],
+  xapiTypes: ['status', 'commands', 'events'],
+  xapiInfo: {
+    status: 'xStatus (query and notifications)',
+    commands: 'xCommands (invokation)',
+    events: 'xEvents (notifications)',
+  },
 
   async init() {
     const scopes = getScopes();
