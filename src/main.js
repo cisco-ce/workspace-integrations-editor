@@ -192,7 +192,13 @@ const model = {
 
   setConfig(json) {
     try {
-      this.config = JSON.parse(json);
+      const config = JSON.parse(json);
+      const basicTest = config.manifestVersion && config.provisioning && config.availability;
+      if (!basicTest) {
+        alert('That did not seem to be a valid manifest file.');
+        return;
+      }
+      this.config = config;
       this.createForm();
     }
     catch(e) {
