@@ -29,9 +29,15 @@
     }
   ],
   "xapiAccess": {
-    "status": [],
-    "commands": [],
-    "events": []
+    "status": [
+      { "path": "", "access": "required" }
+    ],
+    "commands": [
+      { "path": "", "access": "required" }
+    ],
+    "events": [
+      { "path": "", "access": "required" }
+    ]
   },
   "provisioning": {
     "type": "manual"
