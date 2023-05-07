@@ -72,7 +72,9 @@ const model = {
       }
 
       this.datalists.push({ id: 'status', values: getPaths('Status') });
-      this.datalists.push({ id: 'events', values: getPaths('Event') });
+      // wish this came from the schema:
+      this.datalists.push({ id: 'events', values: allowedEvents });
+      // this.datalists.push({ id: 'events', values: getPaths('Event') });
       this.datalists.push({ id: 'commands', values: getPaths('Command') });
     }
     catch(e) {
@@ -85,7 +87,12 @@ const model = {
     if (!path) return '';
 
     const hit = this.xapiDocs.find(n => n.type = t && fixPath(n.path) === path);
-    if (hit) {
+    if (hit && t === 'Event') {
+      if (!path.includes('*') && !allowedEvents.includes(path)) {
+        return '⚠️ This event is not currently supported by Workspace integraitons, as far as the editor knows .';
+      }
+    }
+    else if (hit) {
       return hit.attributes?.description;
     }
     else if (path.includes('*') && !path.includes('[*]')) {

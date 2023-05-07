@@ -211,3 +211,25 @@ function getScopes() {
 
   return devices.concat(nondevices);
 }
+
+// from control hub > workspaces > integrations > webhooks
+const allowedEvents = [
+  'BootEvent',
+  'CallDisconnect',
+  'CallSuccessful',
+  'UserInterface.Assistant.Notification',
+  'UserInterface.Extensions.Panel.Clicked',
+  'UserInterface.Extensions.Widget.Action',
+  'UserInterface.Message.Prompt.Response',
+  'UserInterface.Message.Rating.Response',
+  'UserInterface.Message.TextInput.Response',
+];
+
+const allowedStatus = [
+  'Conference Presentation LocalInstance SendingMode',
+  'RoomAnalytics Engagement CloseProximity',
+  'RoomAnalytics PeopleCount Current',
+  'RoomAnalytics PeoplePresence',
+  'Standby State',
+  'SystemUnit State NumberOfActiveCalls',
+];
