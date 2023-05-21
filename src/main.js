@@ -50,7 +50,7 @@ const model = {
   },
 
   onLeave(event) {
-    if (this.config) {
+    if (this.config && !this.devMode) {
       event.preventDefault();
       return 'You have a manifest open. Leave editor?';
     }
@@ -186,6 +186,8 @@ const model = {
   },
 
   saveToFile() {
+    const { errors, warnings } = validateConfig(this.config);
+    console.log(errors, warnings);
     const text = this.getCleanJSON();
     this.incrementVersion();
     const data = new Blob([text], { type: 'text/plain' });
@@ -232,9 +234,6 @@ const model = {
       .replaceAll('.', ' ');
 
     return `https://roomos.cisco.com/xapi/search?search=${p}&Type=${t}`;
-  },
-
-  validateManifest() {
   },
 
   addScope() {
