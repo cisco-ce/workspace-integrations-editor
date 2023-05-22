@@ -107,8 +107,7 @@ const model = {
   },
 
   home() {
-    // TODO: warn about unsaved config
-    this.config = null;
+    document.location = './';
   },
 
   handleFileDrag() {
