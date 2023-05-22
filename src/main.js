@@ -24,13 +24,15 @@ function fixPath(path) {
 
 const model = {
 
-  tabs: ['General', 'Scopes', 'xAPI', 'JSON'],
+  tabs: ['General', 'Scopes', 'xAPI', 'JSON'], // also export, but dont show that
   currentTab: 'General',
   config: null,
   datalists: [],
   form: [],
   devMode: false,
   jsonValid: true,
+  errors: [],
+  warnings: [],
   xapiDocs: [],
   xapiTypes: ['status', 'commands', 'events'],
   xapiInfo: {
@@ -185,9 +187,14 @@ const model = {
     return JSON.stringify(config, null, 2);
   },
 
-  saveToFile() {
+  exportConfig() {
     const { errors, warnings } = validateConfig(this.config);
-    console.log(errors, warnings);
+    this.errors = errors;
+    this.warnings = warnings;
+    this.currentTab = 'export';
+  },
+
+  saveToFile() {
     const text = this.getCleanJSON();
     this.incrementVersion();
     const data = new Blob([text], { type: 'text/plain' });

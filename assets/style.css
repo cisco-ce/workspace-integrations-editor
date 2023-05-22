@@ -156,6 +156,7 @@ section:last-of-type {
 button {
   cursor: pointer;
   outline: 0;
+  border: 0;
   border-radius: 20px;
 }
 
@@ -165,13 +166,13 @@ button, input, textarea, select {
   padding: 10px 20px;
 }
 
-.buttons button, .buttons button.primary:hover {
+button.action, button.primary:hover {
   background-color: white;
   border: 1px solid var(--main-accent);
   color: var(--main-accent);
 }
 
-.buttons button:hover, button.primary {
+button.action:hover, button.primary {
   background-color: var(--main-accent);
   color: white;
 }

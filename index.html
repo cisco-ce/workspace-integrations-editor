@@ -30,15 +30,25 @@
     You can drag and drop a manifest file here too.
   </div>
   <div class="buttons">
-    <button @click="createNew()">Create new</button>
+    <button
+      @click="createNew()"
+      class="action"
+    >Create new</button>
     <input
       class="manifest-file"
       accept=".json"
       type="file"
       @change="loadFromFile($event.target.files)"
     />
-    <button @click="document.querySelector('.manifest-file').click()">Load file...</button>
-    <button @click="loadSample()" x-show="devMode">Load sample</button>
+    <button
+      class="action"
+      @click="document.querySelector('.manifest-file').click()"
+      >Load file...</button>
+    <button
+      @click="loadSample()"
+      x-show="devMode"
+      class="action"
+    >Load sample</button>
   </div>
 </main>
 
@@ -218,12 +228,33 @@
     <div x-show="!jsonValid" class="error">JSON is currently not valid. Remember " around all keys and strings, and no dangling commas.</div>
   </main>
 
+  <main x-show="currentTab === 'export'">
+    <div x-show="!errors?.length && !warnings.length">👍 Configuration looks valid</div>
+    <template x-for="error in errors">
+      <div x-text="'⛔️ ' + error.text"></div>
+    </template>
+    <template x-for="warning in warnings">
+      <div x-text="'⚠️ ' + warning.text"></div>
+    </template>
+    <div>
+      <button @click="saveToFile()" class="primary">Save to file</button>
+      <button @click="toClipboard()" class="action">Copy to clipboard</button>
+    </div>
+  </main>
+
   <div class="buttons">
-    <button @click="saveToFile()" class="primary">Save file</button>
-    <button @click="toClipboard()">To clipboard</button>
     <!-- <button @click="validateManifest()">Validate</button> -->
+    <button
+      class="primary"
+      @click="exportConfig()"
+      x-show="currentTab !== 'export'"
+    >Export</button>
+    <button
+      class="action"
+      @click="currentTab = 'General'"
+      x-show="currentTab === 'export'"
+    >Back</button>
   </div>
-</div>
 
 <template x-for="datalist in datalists">
   <datalist :id="datalist.id">

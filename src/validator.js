@@ -1,5 +1,4 @@
 function validateConfig(config) {
-  console.log('validate', config);
   const requireds = formFields.filter(f => f.required);
   const warnings = [];
   const errors = [];
@@ -10,7 +9,7 @@ function validateConfig(config) {
       errors.push({
         tab: 'General',
         field: field.id,
-        text: `You need to provide a required field: ${field.id}`,
+        text: `Missing a required field: General > ${field.id}`,
       });
     }
   });
@@ -23,7 +22,7 @@ function validateConfig(config) {
     errors.push({
       tab: 'Scopes',
       field: 'spark:xapi_statuses',
-      text: 'When requesting scope spark:xapi_statuses, you need to request at least one xStatus in the xAPI',
+      text: 'When requesting scope spark:xapi_statuses, you need to specify at least one xStatus in the xAPI',
     });
   }
 
@@ -31,7 +30,7 @@ function validateConfig(config) {
     errors.push({
       tab: 'Scopes',
       field: 'spark:xapi_commands',
-      text: 'When requesting scope sarp:xapi_xommands, you need to request at least one xCommand in the xAPI',
+      text: 'When requesting scope spark:xapi_xommands, you need to specify at least one xCommand in the xAPI',
     });
   }
 
