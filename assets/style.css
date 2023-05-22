@@ -67,6 +67,10 @@ main {
   max-width: 90%;
 }
 
+main h2 {
+  margin-top: 0.5em;
+}
+
 .logo {
   width: 300px;
 }
@@ -121,15 +125,6 @@ textarea.raw-json {
 
 textarea.invalid, textarea.invalid:focus {
   background-color: #f9e4e4;
-}
-
-div.error {
-  margin-top: 10px;
-  color: var(--error);
-}
-
-.warning {
-  color: orange;
 }
 
 .manifest-file {
@@ -248,4 +243,27 @@ iframe.xapi-help {
   background-color: white;
   border: 0;
   border-left: 1px solid #ccc;
+}
+
+.error, .warning {
+  padding: 1em;
+  padding-left: 2em;
+  position: relative;
+}
+
+.error {
+  background: #efc7c7;
+}
+.warning {
+  background: #fcecbd;
+}
+
+.error::before, .warning::before {
+  left: 0.6em;
+  position: absolute;
+  content: "⛔️";
+}
+
+.warning::before {
+  content: "⚠️";
 }

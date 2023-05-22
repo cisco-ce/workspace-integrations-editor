@@ -228,13 +228,17 @@
     <div x-show="!jsonValid" class="error">JSON is currently not valid. Remember " around all keys and strings, and no dangling commas.</div>
   </main>
 
-  <main x-show="currentTab === 'export'">
+  <main x-show="currentTab === 'export'" class="export">
+    <h2>Validation of manifest</h2>
     <div x-show="!errors?.length && !warnings.length">👍 Configuration looks valid</div>
+    <div x-show="errors.length || warnings.length">Manifest contains <b x-text="errors.length"></b> errors and <b x-text="warnings.length"></b> warnings.
+
+    </div>
     <template x-for="error in errors">
-      <div x-text="'⛔️ ' + error.text"></div>
+      <div class="error" x-text="error.text"></div>
     </template>
     <template x-for="warning in warnings">
-      <div x-text="'⚠️ ' + warning.text"></div>
+      <div class="warning" x-text="warning.text"></div>
     </template>
     <div>
       <button @click="saveToFile()" class="primary">Save to file</button>
