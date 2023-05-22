@@ -13,7 +13,7 @@ const formFields = [
     type: 'string',
     valuespace: 'number',
     required: true,
-    helpText: 'Version number is automatically updated by the editor.',
+    helpText: 'Version number is automatically increased when clicking "Export"',
   },
   {
     id: 'displayName',
