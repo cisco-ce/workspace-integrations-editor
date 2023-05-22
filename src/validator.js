@@ -51,6 +51,18 @@ function validateConfig(config) {
     })
   }
 
+  // check for greedy use of apis
+  const types = ['commands', 'status', 'events'];
+  types.forEach((type) => {
+    const greedy = config.xapiAccess?.[type].some(i => i.path === '*');
+    if (greedy) {
+      warnings.push({
+        tab: 'xAPI',
+        field: type,
+        text: `It's not recommended to ask greedily (*) for ${type} - it generates a lot of network traffic, and admins will have less control of what the integration is doing.`,
+      });
+    }
+  })
 
   return { errors, warnings };
 }
