@@ -235,12 +235,24 @@
 
     </div>
     <template x-for="error in errors">
-      <div class="error" x-text="error.text"></div>
+      <div class="error">
+        <span x-text="error.text"></span>
+        <a
+          href=""
+          @click.prevent="showTab(error.tab)"
+          x-text="error.tab + ' &gt; ' + error.field"></a>
+      </div>
     </template>
     <template x-for="warning in warnings">
-      <div class="warning" x-text="warning.text"></div>
+      <div class="warning">
+        <span x-text="warning.text"></span>
+        <a
+        href=""
+        @click.prevent="showTab(warning.tab)"
+        x-text="warning.tab + ' &gt; ' warning.field"></a>
+      </div>
     </template>
-    <div>
+    <div style="text-align: center">
       <button @click="saveToFile()" class="primary">Save to file</button>
       <button @click="toClipboard()" class="action">Copy to clipboard</button>
     </div>

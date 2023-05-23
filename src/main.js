@@ -58,6 +58,10 @@ const model = {
     }
   },
 
+  showTab(tab) {
+    this.currentTab = tab;
+  },
+
   async fetchXapis() {
     // TODO roomos.cisco.com currently doesnt allow CORS
     // const url = 'https://roomos.cisco.com/api/search';

@@ -9,7 +9,7 @@ function validateConfig(config) {
       errors.push({
         tab: 'General',
         field: field.id,
-        text: `Missing a required field: General > ${field.id}`,
+        text: `Missing a required field.`,
       });
     }
   });
@@ -22,7 +22,7 @@ function validateConfig(config) {
     errors.push({
       tab: 'Scopes',
       field: 'spark:xapi_statuses',
-      text: 'When requesting scope spark:xapi_statuses, you need to specify at least one xStatus in the xAPI',
+      text: 'When requesting scope spark:xapi_statuses, you need to specify at least one xStatus in the xAPI.',
     });
   }
 
@@ -30,7 +30,7 @@ function validateConfig(config) {
     errors.push({
       tab: 'Scopes',
       field: 'spark:xapi_commands',
-      text: 'When requesting scope spark:xapi_xommands, you need to specify at least one xCommand in the xAPI',
+      text: 'When requesting scope spark:xapi_xommands, you need to specify at least one xCommand in the xAPI.',
     });
   }
 
@@ -39,7 +39,7 @@ function validateConfig(config) {
     errors.push({
       tab: 'xAPI',
       field: 'commands',
-      text: 'When requesting xCommands, you also need to request the spark:xapi_commands scope',
+      text: 'When requesting xCommands, you also need to request the spark:xapi_commands scope.',
     })
   }
 
@@ -47,7 +47,7 @@ function validateConfig(config) {
     errors.push({
       tab: 'xAPI',
       field: 'status',
-      text: 'When requesting xStatus, you also need to request the spark:xapi_statuses scope',
+      text: 'When requesting xStatus, you also need to request the spark:xapi_statuses scope.',
     })
   }
 
