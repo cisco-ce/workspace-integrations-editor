@@ -40,6 +40,7 @@ const model = {
     commands: 'xCommands (invokation)',
     events: 'xEvents (notifications)',
   },
+  supportedNotifications: [],
 
   async init() {
     const scopes = getScopes();
@@ -79,12 +80,22 @@ const model = {
 
       this.datalists.push({ id: 'status', values: getPaths('Status') });
       // wish this came from the schema:
-      this.datalists.push({ id: 'events', values: allowedEvents });
+      // this.datalists.push({ id: 'events', values: this.supportedNotifications?.supportedEvents });
       // this.datalists.push({ id: 'events', values: getPaths('Event') });
       this.datalists.push({ id: 'commands', values: getPaths('Command') });
     }
     catch(e) {
       console.log(e);
+    }
+
+    const subscriptionsUrl = 'https://xapi-a.wbx2.com/xapi/api/apps/supportedSubscriptions';
+    try {
+      const supported = await (await fetch(subscriptionsUrl))?.json();
+      this.supportedNotifications = supported;
+      this.datalists.push({ id: 'events', values: this.supportedNotifications?.supportedEvents });
+    }
+    catch {
+      console.warn('Not able to fetch notification list');
     }
   },
 
@@ -93,6 +104,7 @@ const model = {
     if (!path) return '';
 
     const hit = this.xapiDocs.find(n => n.type = t && fixPath(n.path) === path);
+    const allowedEvents = this.supportedNotifications.supportedEvents;
     if (hit && t === 'Event') {
       if (!path.includes('*') && !allowedEvents.includes(path)) {
         return '⚠️ This event is not currently supported by Workspace integraitons, as far as the editor knows .';
