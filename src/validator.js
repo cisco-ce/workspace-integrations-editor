@@ -1,3 +1,7 @@
+function isEmail(text) {
+  return text.match(/\S+@\S+\.\S+/);
+}
+
 function validateConfig(config) {
   const requireds = formFields.filter(f => f.required);
   const warnings = [];
@@ -13,6 +17,14 @@ function validateConfig(config) {
       });
     }
   });
+
+  if (!isEmail(config.email)) {
+    errors.push({
+      tab: 'General',
+      field: 'email',
+      text: 'Your email address does not seem valid.',
+    });
+  }
 
   // check scopes vs xapis:
   const hasScope = name => config.apiAccess?.find(a => a.scope === name);
