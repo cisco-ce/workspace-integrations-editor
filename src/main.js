@@ -107,7 +107,7 @@ const model = {
     const allowedEvents = this.supportedNotifications.supportedEvents;
     if (hit && t === 'Event') {
       if (!path.includes('*') && !allowedEvents.includes(path)) {
-        return '⚠️ This event is not currently supported by Workspace integraitons, as far as the editor knows .';
+        return '⚠️ This event is not currently supported by Workspace integrations, as far as the editor knows .';
       }
     }
     else if (hit) {
