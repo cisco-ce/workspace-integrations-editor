@@ -67,8 +67,11 @@ const model = {
     const url = 'https://roomos.cisco.com/api/schema/latest';
 
     try {
-      const res = await fetch(url);
-      if (!res.ok) return;
+      let res = await fetch(url);
+      if (!res.ok) {
+        res = await fetch('./xapi.json');
+        if (!res.ok) return;
+      }
       this.xapiDocs = (await res.json()).objects;
       const getPaths = type => {
         const nodes = this.xapiDocs.filter(n => n.type === type);
