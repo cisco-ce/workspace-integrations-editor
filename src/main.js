@@ -313,9 +313,9 @@ const model = {
 
   xapiExample(type) {
     const list = {
-      commands: 'Audio.Volume.Set, UserInterface.Extensions.*',
-      status: 'Audio.Volume, RoomAnalytics.*',
-      events: 'SystemUnit.Boot, UserInterface.Extensions.*',
+      commands: 'Audio.Volume.Set, SystemUnit.Boot',
+      status: 'Audio.Volume, RoomAnalytics.PeoplePresence',
+      events: 'UserInterface.Message.Prompt.Response',
     };
     return list[type] || '';
   },
