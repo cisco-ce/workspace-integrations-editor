@@ -64,9 +64,8 @@ const model = {
   },
 
   async fetchXapis() {
-    // TODO roomos.cisco.com currently doesnt allow CORS
-    // const url = 'https://roomos.cisco.com/api/search';
-    const url = './xapi.json';
+    const url = 'https://roomos.cisco.com/api/schema/latest';
+
     try {
       const res = await fetch(url);
       if (!res.ok) return;
