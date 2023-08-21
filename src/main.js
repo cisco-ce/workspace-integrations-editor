@@ -315,7 +315,7 @@ const model = {
     const list = {
       commands: 'Audio.Volume.Set, SystemUnit.Boot',
       status: 'Audio.Volume, RoomAnalytics.PeoplePresence',
-      events: 'UserInterface.Message.Prompt.Response',
+      events: 'BootEvent, UserInterface.Message.Prompt.Response',
     };
     return list[type] || '';
   },
