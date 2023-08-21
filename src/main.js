@@ -107,7 +107,7 @@ const model = {
     const allowedEvents = this.supportedNotifications.supportedEvents;
     if (hit && t === 'Event') {
       if (!path.includes('*') && !allowedEvents.includes(path)) {
-        return '⚠️ This event is not currently supported by Workspace integraitons, as far as the editor knows .';
+        return '⚠️ This event is not currently supported by Workspace integrations, as far as the editor knows .';
       }
     }
     else if (hit) {
@@ -313,9 +313,9 @@ const model = {
 
   xapiExample(type) {
     const list = {
-      commands: 'Audio.Volume.Set, UserInterface.Extensions.*',
-      status: 'Audio.Volume, RoomAnalytics.*',
-      events: 'SystemUnit.Boot, UserInterface.Extensions.*',
+      commands: 'Audio.Volume.Set, SystemUnit.Boot',
+      status: 'Audio.Volume, RoomAnalytics.PeoplePresence',
+      events: 'BootEvent, UserInterface.Message.Prompt.Response',
     };
     return list[type] || '';
   },
