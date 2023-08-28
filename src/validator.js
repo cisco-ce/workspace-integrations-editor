@@ -74,7 +74,15 @@ function validateConfig(config) {
         text: `It's not recommended to ask greedily (*) for ${type} - it generates a lot of network traffic, and admins will have less control of what the integration is doing.`,
       });
     }
-  })
+  });
+
+  if (config.provisioning.url && config.provisioning.activationGuideUrl) {
+    errors.push({
+      tab: 'General',
+      field: 'provisioning',
+      text: 'You cannot set both the provisioning URL and the activation guide URL',
+    });
+  }
 
   return { errors, warnings };
 }

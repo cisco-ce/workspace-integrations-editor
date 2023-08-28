@@ -139,8 +139,8 @@
       </div>
       <label>Activation guide url</label>
       <input
-        :value="confg?.provisioning?.activationGuideUrl"
-        :@input="config.provisioning.url = $event.target.value"
+        :value="config?.provisioning?.activationGuideUrl"
+        @input="config.provisioning.activationGuideUrl = $event.target.value"
       />
       <div class="help-text">Documentation page that describes how to continue with the activation process.</div>
     </section>
