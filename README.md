@@ -1,6 +1,8 @@
 # Webex Workspace Integrations Manifes Editor
 
-![Screenshot of xAPI settings page](./assets/xapi.png)
+<a href="https://cisco-ce.github.io/workspace-integrations-editor">
+  <img src="./assets/xapi.png" />
+</a>
 
 This is a free-to-use, open source developer tool for working with the manifest files for
 <a href="https://developer.webex.com/docs/api/guides/workspace-integrations-guide">Webex Workspace Integrations</a>.
