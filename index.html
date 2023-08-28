@@ -136,8 +136,13 @@
         @input="config.provisioning.url = $event.target.value"
       />
       <div class="help-text">Where the JWT will be POSTed. Only required if type is https.</div>
-
       </div>
+      <label>Activation guide url</label>
+      <input
+        :value="confg?.provisioning?.activationGuideUrl"
+        :@input="config.provisioning.url = $event.target.value"
+      />
+      <div class="help-text">Documentation page that describes how to continue with the activation process.</div>
     </section>
 
   </main>
